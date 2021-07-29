@@ -102,6 +102,7 @@ bool Heap::checker_(int index)
 
 void Heap::heapify(int index)
 {
+	++heapifyCount;
 	//std::cout << "Called heapify for : " << m_data[index] << std::endl;
 	int ParInd = GetParInd(index);
 	int Right = GetRightInd(index);
@@ -126,6 +127,22 @@ void Heap::heapify(int index)
 		heapify(Left);
 		heapify(index);
 		return;
+	}
+}
+
+void Heap::heapSort()
+{
+	int tmp = m_dataCount;
+	for (int i = 1; i < tmp; ++i)
+	{
+		std::swap(m_data[1], m_data[m_dataCount]);
+		--m_dataCount;
+		heapify(1);
+	}
+	m_dataCount = tmp;
+	for (int i = 0; i < m_dataCount / 2; ++i)
+	{
+		std::swap(m_data[i], m_data[m_dataCount - i]);
 	}
 }
 
