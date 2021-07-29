@@ -16,11 +16,15 @@ public:
 
 	int extractMini();
 
+	void heapSort();
+
 	bool checker();
 
-	void resize();
+	int heapifyCount = 0;
 
 private:
+	void resize();
+
 	void heapify(int index);
 
 	int GetParInd(int index);
