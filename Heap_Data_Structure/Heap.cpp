@@ -1,37 +1,48 @@
-#include "Heap.h"
+#include "PriorityQueue.h"
 
-Heap::Heap(int size)
+PriorityQueue::PriorityQueue()
 {
 	m_dataCount = 0;
-	m_size = size + 1;
-	m_data = new int[m_size];
+	m_size = 7 + 1;
+	m_data = new node[m_size];
 	for (int i = 0; i < m_size; ++i)
 	{
-		m_data[i] = -1;
+		m_data[i].priority = -1;
 	}
 }
 
-Heap::~Heap()
+PriorityQueue::PriorityQueue(int size)
+{
+	m_dataCount = 0;
+	m_size = size + 1;
+	m_data = new node[m_size];
+	for (int i = 0; i < m_size; ++i)
+	{
+		m_data[i].priority = -1;
+	}
+}
+
+PriorityQueue::~PriorityQueue()
 {
 	delete[] m_data;
 }
 
-void Heap::AddElement(int key)
+void PriorityQueue::AddElement(node data)
 {
-	std::cout << "Adding element : " << key << std::endl;
+	std::cout << "Adding element : " << data.data << " with priority : " << data.priority << std::endl;
 	if (m_size - 1 == m_dataCount)
 	{
 		resize();
 	}
-	m_data[++m_dataCount] = key;
+	m_data[++m_dataCount] = data;
 	heapify(m_dataCount);
 }
 
-void Heap::PrintData()
+void PriorityQueue::PrintData()
 {
 	for (int i = 1; i < m_size; ++i)
 	{
-		std::cout << m_data[i] << " ";
+		std::cout << m_data[i].data << "(" << m_data[i].priority << ")" << " ";
 		if (!(i & i + 1))
 		{
 			std::cout << std::endl;
@@ -39,37 +50,75 @@ void Heap::PrintData()
 	}
 }
 
-int Heap::getMini()
+int PriorityQueue::getMini()
 {
-	return m_data[1];
+	return m_data[1].data;
 }
 
-int Heap::extractMini()
+int PriorityQueue::extractMini()
 {
 	std::cout << "Extract Minimum" << std::endl;
 	int result = getMini();
 	std::swap(m_data[1], m_data[m_dataCount]);
-	m_data[m_dataCount--] = -1;
+	m_data[m_dataCount--].priority = -1;
 	heapify(1);
 	return 0;
 }
 
-bool Heap::checker()
+bool PriorityQueue::checker()
 {
-	return checker_(1);
+	if (checker_(1))
+	{
+		return true;
+	}
+	else
+	{
+		std::cout << "Heap error" << std::endl;
+		return false;
+	}
 }
 
-void Heap::resize() /// need to fix bugs
+bool PriorityQueue::Sortchecker()
+{
+	for (int i = 2; i < m_dataCount; ++i)
+	{
+		if (m_data[i - 1].priority > m_data[i].priority)
+		{
+			std::cout << "Sort error" << std::endl;
+			return false;
+		}
+	}
+	return true;
+}
+
+void PriorityQueue::heapSort()
+{
+	int tmp = m_dataCount;
+	for (int i = 1; i < tmp + 1; ++i)
+	{
+		std::swap(m_data[1], m_data[m_dataCount]);
+		--m_dataCount;
+		heapify(1);
+	}
+	m_dataCount = tmp;
+	for (int i = 1; i < (m_dataCount + 2) / 2; ++i)
+	{
+		std::swap(m_data[i], m_data[m_dataCount + 1 - i]);
+	}
+}
+
+
+void PriorityQueue::resize() /// need to fix bugs
 {
 	m_data;
-	int* tmp = new int[2 * m_size];
+	node* tmp = new node[2 * m_size];
 	for (int i = 0; i < m_size; ++i)
 	{
 		tmp[i] = m_data[i];
 	}
 	for (int i = m_size; i < 2 * m_size; ++i)
 	{
-		tmp[i] = -1;
+		tmp[i].priority = -1;
 	}
 	m_size *= 2;
 	delete[] m_data;
@@ -78,7 +127,7 @@ void Heap::resize() /// need to fix bugs
 	tmp = nullptr;
 }
 
-bool Heap::checker_(int index)
+bool PriorityQueue::checker_(int index)
 {
 	int ParInd = GetParInd(index);
 	int Right = GetRightInd(index);
@@ -91,37 +140,36 @@ bool Heap::checker_(int index)
 	}
 	if (Right < m_dataCount)
 	{
-		result &= (m_data[index] <= m_data[Right]);
+		result &= (m_data[index].priority <= m_data[Right].priority);
 	}
 	if (Left < m_dataCount)
 	{
-		result &= (m_data[index] <= m_data[Left]);
+		result &= (m_data[index].priority <= m_data[Left].priority);
 	}
 	return result && checker_(Right) && checker_(Left);
 }
 
-void Heap::heapify(int index)
+void PriorityQueue::heapify(int index)
 {
-	++heapifyCount;
 	//std::cout << "Called heapify for : " << m_data[index] << std::endl;
 	int ParInd = GetParInd(index);
 	int Right = GetRightInd(index);
 	int Left = GetLeftInd(index);
-	if (m_data[ParInd] > m_data[index])
+	if (m_data[ParInd].priority > m_data[index].priority)
 	{
 		std::swap(m_data[ParInd], m_data[index]);
 		heapify(ParInd);
 		heapify(index);
 		return;
 	}
-	else if (Right <= m_dataCount && m_data[Right] < m_data[index])
+	else if (Right <= m_dataCount && m_data[Right].priority < m_data[index].priority)
 	{
 		std::swap(m_data[Right], m_data[index]);
 		heapify(Right);
 		heapify(index);
 		return;
-	} 
-	else if (Left <= m_dataCount && m_data[Left] < m_data[index])
+	}
+	else if (Left <= m_dataCount && m_data[Left].priority < m_data[index].priority)
 	{
 		std::swap(m_data[Left], m_data[index]);
 		heapify(Left);
@@ -130,33 +178,17 @@ void Heap::heapify(int index)
 	}
 }
 
-void Heap::heapSort()
-{
-	int tmp = m_dataCount;
-	for (int i = 1; i < tmp; ++i)
-	{
-		std::swap(m_data[1], m_data[m_dataCount]);
-		--m_dataCount;
-		heapify(1);
-	}
-	m_dataCount = tmp;
-	for (int i = 0; i < m_dataCount / 2; ++i)
-	{
-		std::swap(m_data[i], m_data[m_dataCount - i]);
-	}
-}
-
-int Heap::GetParInd(int index)
+int PriorityQueue::GetParInd(int index)
 {
 	return index / 2;
 }
 
-int Heap::GetRightInd(int index)
+int PriorityQueue::GetRightInd(int index)
 {
 	return index * 2 + 1;
 }
 
-int Heap::GetLeftInd(int index)
+int PriorityQueue::GetLeftInd(int index)
 {
 	return index * 2;
 }
