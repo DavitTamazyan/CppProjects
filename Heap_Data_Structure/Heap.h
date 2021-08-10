@@ -1,53 +1,28 @@
 #pragma once
 #include<iostream>
 
-class PriorityQueue {
+class Heap
+{
 public:
-	struct node
-	{
-		int data;
-		int priority;
-		node()
-		{
-			data = 0;
-			priority = -1;
-		}
-		node(int _data, int _priority)
-		{
-			data = _data;
-			priority = _priority;
-		}
-		node& operator=(const node& rhs)
-		{
-			this->data = rhs.data;
-			this->priority = rhs.priority;
-			return *this;
-		}
-	};
+	Heap(int size);
 
-	PriorityQueue();
+	~Heap();
 
-	PriorityQueue(int size);
+	void AddElement(int key);
 
-	~PriorityQueue();
-	
-	void AddElement(node data);
-	
 	void PrintData();
-	
-	int getMini();
-	
-	int extractMini();
-	
-	bool checker();
 
-	bool Sortchecker();
-	
+	int getMini();
+
+	int extractMini();
+
 	void heapSort();
 
-	void resize();
+	bool checker();
 
 private:
+	void resize();
+
 	void heapify(int index);
 
 	int GetParInd(int index);
@@ -60,7 +35,7 @@ private:
 
 private:
 	int m_size;
-	node* m_data;
+	int* m_data;
 	int m_dataCount;
 };
 
