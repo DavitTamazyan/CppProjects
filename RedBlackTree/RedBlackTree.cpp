@@ -39,6 +39,68 @@ RedBlackTree::Node* RedBlackTree::Insert_(int val, Node* parent)
 	}
 }
 
+void RedBlackTree::Delete(int val)
+{
+	Node* target = m_root;
+
+	while (target != nullptr && target->value != val)
+	{
+		target = (target->value > val) ? target->left : target->right;
+	}
+	if (nullptr == target)
+	{
+		return;
+	}
+
+	Node* newNode = nullptr;
+
+	std::cout << "Start" << std::endl;
+	if (target->left == nullptr && target->right == nullptr)
+	{
+		std::cout << "Case 1" << std::endl;
+		DeleteNode(target);
+		return;
+	} 
+	else if (target->left != nullptr)
+	{
+		std::cout << "Case 2" << std::endl;
+		newNode = target->left;
+		while (newNode != nullptr && !(newNode->left == nullptr && newNode->right == nullptr))
+		{
+			newNode = newNode->right;
+		}
+	}
+	else if (target->right != nullptr)	
+	{
+		std::cout << "Case 3" << std::endl;
+		newNode = target->right;
+		while (newNode != nullptr && !(newNode->left == nullptr && newNode->right == nullptr))
+		{
+			newNode = newNode->left;
+		}
+	}
+	//target->value = newNode->value;
+	//DeleteNode(newNode);
+}
+
+void RedBlackTree::DeleteNode(Node* node)
+{
+	if (nullptr == node->parent)
+	{
+		delete node;
+	}
+	else if (node == node->parent->left)
+	{
+		delete node->parent->left;
+		node->parent->left = nullptr;
+	}
+	else
+	{
+		delete node->parent->right;
+		node->parent->right = nullptr;
+	}
+}
+
 void RedBlackTree::NewNodeChecker(Node* newNode)
 {
 	if (nullptr == newNode->parent  || Color::BLACK == newNode->parent->color)

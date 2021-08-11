@@ -26,9 +26,11 @@ public:
 	~RedBlackTree();
 	void Insert(int val);
 	void Print();
+	void Delete(int val);
 private:
 	/// internal implementation
 	Node* Insert_(int val, Node* parent);
+	void DeleteNode(Node* node);
 	void NewNodeChecker(Node* newNode);
 	/// Rotations
 	void RightRightRotation(Node* oldRoot);

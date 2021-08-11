@@ -19,7 +19,8 @@ int main()
 	tree.Insert(55);
 	tree.Insert(45);
 	tree.Insert(80);
-	//tree.Insert(100);
-
 	tree.Print();
+	tree.Delete(80);
+	tree.Print();
+
 }
