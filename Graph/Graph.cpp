@@ -217,7 +217,7 @@ void Graph<LabelType>::depthFirstTraversal(LabelType start)
 template<class LabelType>
 void Graph<LabelType>::breadthFirstTraversal(LabelType start)
 {
-	bool* isVisited = new bool[m_vertexCount] {};
+	uint8_t* isVisited = new uint8_t[m_vertexCount]{};
 	std::cout << "Node = " << start << std::endl; /// I thing bad coding
 	breadthFirstTraversal_int(Findbyvalue(start), isVisited);
 }
@@ -560,20 +560,23 @@ void Graph<LabelType>::depthFirstTraversal_int(int index, bool*& isVisited)
 }
 
 template<class LabelType>
-void Graph<LabelType>::breadthFirstTraversal_int(int index, bool*& isVisited) /// change impl
+void Graph<LabelType>::breadthFirstTraversal_int(int index, uint8_t*& isVisited) /// change impl
 {
-	isVisited[index] = true;
-	for (int i = 0; i < m_size; ++i)
+	isVisited[index] |= 2;
+
+	for (int i = 0; i < m_vertexCount; ++i)
 	{
-		if (m_data[index][i] != 0 && !isVisited[i]) 
+		if (0 != m_data[index][i] && 0 == isVisited[i])
 		{
+			isVisited[i] |= 1;
 			std::cout << "Node = " << m_map[i] << std::endl; /// I thing bad coding
 		}
 	}
-	for (int i = 0; i < m_size; ++i)
+	for (int i = 0; i < m_vertexCount; ++i)
 	{
-		if (m_data[index][i] != 0 && !isVisited[i]) /// check != 0 maybe need to use infinity
+		if (0 != m_data[index][i] && 1 == isVisited[i]) /// check != 0 maybe need to use infinity
 		{
+			isVisited[i] |= 2;
 			breadthFirstTraversal_int(i, isVisited);
 		}
 	}
