@@ -29,6 +29,9 @@ public:
 	/// shortest-path algorithms
 	virtual int* DijkstraAlg(LabelType start);
 	virtual int* BellmanFordAlg(LabelType start);
+	/// other Algorithms
+	virtual void TopologicalSort(LabelType start); /// return type ???
+	virtual void MinimumSpanningTree(LabelType start); /// return type ??? Kruskal’s Algorithm
 	/// Set internal things
 	virtual bool SetDirectedGraph(bool dir);
 private:
@@ -42,6 +45,8 @@ private:
 	void breadthFirstTraversal_int(int index, bool*& isVisited);
 	void DijkstraNode(int* distArr, int NodeIndex, bool*& isVisited); /// bad name
 	void BellmanFordNode(int* distArr, int NodeIndex, bool*& isVisited); /// also bad name
+	void TopologicalSortRec(std::stack<LabelType>& path, int index, bool*& isVisited);
+	void MinimumSpanningTreeRec(std::stack<LabelType>& path, int index, bool*& isVisited);
 private:
 	int m_size;
 	int** m_data;

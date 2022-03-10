@@ -1,78 +1,49 @@
-Mon Mar  7 12:02:33 2022
+Tue Mar  8 17:09:25 2022
 
-called add for 0 <=> 1
-Called Findbyvalue for 0
-Called GetNewIndex for 0
+called add for A <=> B
+Called Findbyvalue for A
+Called GetNewIndex for A
 Called ResizeMap
 ResizeMap Done
 Called ResizeData
 ResizeData Done
-Called Findbyvalue for 1
-Called GetNewIndex for 1
+Called Findbyvalue for B
+Called GetNewIndex for B
 Called ResizeMap
 ResizeMap Done
 Called ResizeData
 ResizeData Done
-add for 0 <=> 1 Done
-called add for 1 <=> 2
-Called Findbyvalue for 1
-Called Findbyvalue for 2
-Called GetNewIndex for 2
+add for A <=> B Done
+called add for B <=> C
+Called Findbyvalue for B
+Called Findbyvalue for C
+Called GetNewIndex for C
 Called ResizeMap
 ResizeMap Done
 Called ResizeData
 ResizeData Done
-add for 1 <=> 2 Done
-called add for 0 <=> 2
-Called Findbyvalue for 0
-Called Findbyvalue for 2
-add for 0 <=> 2 Done
-called add for 1 <=> 3
-Called Findbyvalue for 1
-Called Findbyvalue for 3
-Called GetNewIndex for 3
-add for 1 <=> 3 Done
-called add for 3 <=> 1
-Called Findbyvalue for 3
-Called Findbyvalue for 1
-add for 3 <=> 1 Done
-called add for 3 <=> 2
-Called Findbyvalue for 3
-Called Findbyvalue for 2
-add for 3 <=> 2 Done
-called add for 1 <=> 4
-Called Findbyvalue for 1
-Called Findbyvalue for 4
-Called GetNewIndex for 4
-Called ResizeMap
-ResizeMap Done
-Called ResizeData
-ResizeData Done
-add for 1 <=> 4 Done
-called add for 4 <=> 3
-Called Findbyvalue for 4
-Called Findbyvalue for 3
-add for 4 <=> 3 Done
-Called Findbyvalue for 0
+add for B <=> C Done
+called add for C <=> D
+Called Findbyvalue for C
+Called Findbyvalue for D
+Called GetNewIndex for D
+add for C <=> D Done
+called add for D <=> A
+Called Findbyvalue for D
+Called Findbyvalue for A
+add for D <=> A Done
+Called Findbyvalue for A
 ___________________________________________________________________
-	0	1	2	3	4	U	U	U	
-0	0	-1	4	0	0	0	0	0	
-1	0	0	3	2	2	0	0	0	
-2	0	0	0	0	0	0	0	0	
-3	0	1	5	0	0	0	0	0	
-4	0	0	0	-3	0	0	0	0	
-U	0	0	0	0	0	0	0	0	
-U	0	0	0	0	0	0	0	0	
-U	0	0	0	0	0	0	0	0	
+	A	B	C	D	
+A	0	4	0	1	
+B	4	0	5	0	
+C	0	5	0	2	
+D	1	0	2	0	
 
 ___________________________________________________________________
 ___________________________________________________________________
-0 : 0
-1 : 1
-2 : 2
-3 : 3
-4 : 4
-5 : 0
-6 : 0
-7 : 0
+0 : A
+1 : B
+2 : C
+3 : D
 ___________________________________________________________________

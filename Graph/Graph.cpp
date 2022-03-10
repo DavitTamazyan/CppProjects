@@ -310,6 +310,71 @@ int* Graph<LabelType>::BellmanFordAlg(LabelType start)
 }
 
 template<class LabelType>
+void Graph<LabelType>::TopologicalSort(LabelType start)
+{
+	std::stack<LabelType> path;
+	int index = Findbyvalue(start);
+	if (-1 == index)
+	{
+		return;
+	}
+	bool* isVisited = new bool[m_map_size];
+
+	for (int i = 0; i < m_map_size; ++i)
+	{
+		isVisited[i] = false;
+	}
+
+	TopologicalSortRec(path, index, isVisited);
+
+	for (int i = 0; i < m_vertexCount; ++i) /// maybe no need
+	{
+		if (false == isVisited[i])
+		{
+			TopologicalSortRec(path, i, isVisited);
+		}
+	}
+
+	while (!path.empty())
+	{
+		std::cout << path.top() << " ";
+		path.pop();
+	}
+	std::cout << std::endl;
+
+	delete[] isVisited;
+}
+
+template<class LabelType>
+void Graph<LabelType>::MinimumSpanningTree(LabelType start)
+{
+	std::stack<LabelType> path;
+	int index = Findbyvalue(start);
+	if (-1 == index)
+	{
+		return;
+	}
+	bool* isVisited = new bool[m_map_size];
+	bool whileEnd = false;
+
+	for (int i = 0; i < m_map_size; ++i)
+	{
+		isVisited[i] = false;
+	}
+
+	MinimumSpanningTreeRec(path, index, isVisited);
+
+	while (!path.empty())
+	{
+		std::cout << path.top() << " ";
+		path.pop();
+	}
+	std::cout << std::endl;
+
+	delete[] isVisited;
+}
+
+template<class LabelType>
 bool Graph<LabelType>::SetDirectedGraph(bool dir)
 {
 	m_DirectedGraph = dir;
@@ -553,4 +618,102 @@ void Graph<LabelType>::BellmanFordNode(int* distArr, int NodeIndex, bool*& isVis
 			}
 		}
 	}
+}
+
+template<class LabelType>
+void Graph<LabelType>::TopologicalSortRec(std::stack<LabelType>& path, int index, bool*& isVisited)
+{
+	std::cout << "Called for " << m_map[index] << std::endl;
+	for (int i = 0; i < m_vertexCount; ++i)
+	{
+		if ((0 != m_data[index][i]) && (false == isVisited[i]))
+		{
+			TopologicalSortRec(path, i, isVisited);
+		}
+	}
+	isVisited[index] = true;
+
+	path.push(m_map[index]);
+}
+
+template<class LabelType>
+void Graph<LabelType>::MinimumSpanningTreeRec(std::stack<LabelType>& path, int index, bool*& isVisited) /// code size can optimized
+{
+	std::cout << index << " : Called for Node " << m_map[index] << std::endl;
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	/// 1. ___ Add this Node to path and mark as visited ___
+	path.push(m_map[index]);
+	isVisited[index] = true;
+	/// 1. ___ end ___
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	/// 2. ___ Check if all nodes Visited ___
+	bool result = true;
+	for (int i = 0; (i < m_vertexCount) && (result); ++i)
+	{
+		result &= isVisited[i];
+	}
+	if (result)
+	{
+		return;
+	}
+	/// 2. ___ end ___
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	/// 3. ___ Finding the smallest weighted edge ___
+	int minWeight = INT_MAX;
+	int newIndex = -1;
+
+	for (int i = 0; i < m_vertexCount; ++i)
+	{
+		if (0 != m_data[index][i] && false == isVisited[i]) /// can go
+		{
+			if (minWeight > m_data[index][i])
+			{
+				minWeight = m_data[index][i];
+				newIndex = i;
+			}
+		}
+	}
+	/// 3. ___ end ___
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+	/// 4. ___ Recursive Call, if can ___
+	if (-1 == newIndex)
+	{
+		return;
+	}
+	else
+	{
+		bool whileEnd = false;
+		while (!whileEnd)
+		{
+			/// 3. ___ Finding the smallest weighted edge ___
+			int minWeight = INT_MAX;
+			int newIndex = -1;
+
+			for (int i = 0; i < m_vertexCount; ++i)
+			{
+				if (0 != m_data[index][i] && false == isVisited[i]) /// can go
+				{
+					if (minWeight > m_data[index][i])
+					{
+						minWeight = m_data[index][i];
+						newIndex = i;
+					}
+				}
+			}
+			if (-1 != newIndex)
+			{
+				MinimumSpanningTreeRec(path, newIndex, isVisited);
+				whileEnd = false;
+			}
+			else
+			{
+				whileEnd = true;
+			}
+			/// 3. ___ end ___
+		}
+	}
+	/// 4. ___ end ___
+	///////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 }

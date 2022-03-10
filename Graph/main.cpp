@@ -10,20 +10,26 @@ void AddRandomCities(Graph<std::string>&);
 
 int main()
 {
-	Graph<int> myGraph{};
-	myGraph.SetDirectedGraph(true);
-	myGraph.add(0, 1, -1);
-	myGraph.add(1, 2, 3);
-	myGraph.add(0, 2, 4);
-	myGraph.add(1, 3, 2);
-	myGraph.add(3, 1, 1);
-	myGraph.add(3, 2, 5);
-	myGraph.add(1, 4, 2);
-	myGraph.add(4, 3, -3);
+	Graph<std::string> myGraph{};
+	myGraph.SetDirectedGraph(false);
+	myGraph.add("A", "B", 4);
+	myGraph.add("B", "C", 5);
+	myGraph.add("C", "D", 2);
+	myGraph.add("D", "A", 1);
+	//myGraph.add("i", "a", 2);
+	//myGraph.add("a", "b", 6);
+	//myGraph.add("a", "f", 4);
+	//myGraph.add("g", "f", 2);
+	//myGraph.add("b", "e", 9);
+	//myGraph.add("g", "e", 8);
+	//myGraph.add("g", "d", 5);
+	//myGraph.add("e", "c", 3);
+	//myGraph.add("b", "c", 7);
+	//myGraph.add("d", "c", 4);
+	//myGraph.add("d", "h", 1);
 	try
 	{
-		//myGraph.DijkstraAlg(1);
-		myGraph.BellmanFordAlg(0);
+		myGraph.MinimumSpanningTree("A");
 	}
 	catch (...)
 	{
